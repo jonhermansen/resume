@@ -15,8 +15,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       
-    - name: Copy resume.pdf to index.html
-      run: cp resume.pdf index.html
+    - name: Prepare files for deployment
+      run: |
+        # Both index.html and resume.pdf are already in the repo
+        echo "Files ready for deployment"
       
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
