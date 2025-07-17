@@ -1,2 +1,1 @@
-- Keep major.minor version in a static VERSION file, CI does the rest
-- Add Cargo.lock for crate publishing
+- Remove unnecessary Nix build steps from CI for now
