@@ -17,23 +17,15 @@ jobs:
       with:
         fetch-depth: 0  # Fetch full history including tags
         
-    - name: Install Nix
-      uses: cachix/install-nix-action@v27
-      with:
-        extra_nix_config: |
-          experimental-features = nix-command flakes
-          
+    - name: Setup Rust
+      uses: dtolnay/rust-toolchain@stable
+      
     - name: Build and test Rust crate
       run: |
-        nix develop --command cargo check
-        nix develop --command cargo test
-        nix develop --command cargo run
+        cargo check
+        cargo test
+        cargo run
         echo "Rust crate built and tested successfully!"
-        
-    - name: Build Nix package
-      run: |
-        nix build
-        echo "Nix package built successfully!"
       
     - name: Prepare files for deployment
       run: |
@@ -80,7 +72,7 @@ jobs:
         
     - name: Rebuild with updated version
       run: |
-        nix develop --command cargo check
+        cargo check
         echo "Rebuilt with version: ${{ steps.release_info.outputs.version }}"
       
     - name: Deploy to GitHub Pages
