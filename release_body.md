@@ -1,1 +1,2 @@
-- First pass at getting things going with Nix
+- Keep major.minor version in a static VERSION file, CI does the rest
+- Add Cargo.lock for crate publishing

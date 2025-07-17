@@ -1,6 +1,6 @@
 [package]
 name = "jonhermansen-resume"
-version = "0.1.0"
+version = "0.1.1752724706"
 authors = ["Jon Hermansen <jon@jh86.org>"]
 edition = "2021"
 description = "Jon Hermansen's resume generator"
