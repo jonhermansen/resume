@@ -1,4 +1,1 @@
-- Bump version to 0.2 and test automated publishing pipeline
-- Add --allow-dirty flag to cargo publish for CI
-- Fix license field for crates.io publishing
-- Add automatic crate publishing to CI workflow
+- Linked to my homepage from Rust crate metadata
