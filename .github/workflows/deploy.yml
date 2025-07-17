@@ -27,24 +27,45 @@ jobs:
         publish_dir: .
         publish_branch: gh-pages
         
-    - name: Generate release tag
-      id: tag
+    - name: Generate release tag and changelog
+      id: release_info
       run: |
         TIMESTAMP=$(date +%s)
         DATE=$(date +'%Y.%m%d')
         TAG="v${DATE}.${TIMESTAMP}"
+        RELEASE_DATE=$(date +'%Y-%m-%d at %H:%M:%S UTC')
+        
+        # Get the last release tag for changelog
+        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        
+        if [ -n "$LAST_TAG" ]; then
+          echo "Generating changelog since $LAST_TAG"
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD)
+        else
+          echo "No previous tags found, getting recent commits"
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -5)
+        fi
+        
+        # Create release body
+        cat > release_body.md << EOF
+        Resume published on $RELEASE_DATE
+        
+        ## Changes since last release:
+        $CHANGELOG
+        
+        ---
+        This release contains the latest version of the resume.
+        EOF
+        
         echo "tag=$TAG" >> $GITHUB_OUTPUT
         echo "Generated tag: $TAG"
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ steps.tag.outputs.tag }}
-        name: "Resume Release ${{ steps.tag.outputs.tag }}"
-        body: |
-          Resume published on $(date +'%Y-%m-%d at %H:%M:%S UTC')
-          
-          This release contains the latest version of the resume.
+        tag_name: ${{ steps.release_info.outputs.tag }}
+        name: "Resume Release ${{ steps.release_info.outputs.tag }}"
+        body_path: release_body.md
         files: resume.pdf
         draft: false
         prerelease: false
