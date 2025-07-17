@@ -21,13 +21,6 @@ jobs:
       run: |
         # Both index.html and resume.pdf are already in the repo
         echo "Files ready for deployment"
-      
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .
-        publish_branch: gh-pages
         
     - name: Generate release tag and changelog
       id: release_info
@@ -40,10 +33,10 @@ jobs:
         LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
         
         if [ -n "$LAST_TAG" ]; then
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD)
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD 2>/dev/null || echo "")
         else
           # If no tags exist, get last 3 commits
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -3 HEAD)
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -3 2>/dev/null || echo "")
         fi
         
         # Create minimal release body
@@ -54,6 +47,13 @@ jobs:
         fi
         
         echo "tag=$TAG" >> $GITHUB_OUTPUT
+      
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
+        publish_branch: gh-pages
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
