@@ -43,9 +43,20 @@ jobs:
     - name: Generate release tag and changelog
       id: release_info
       run: |
+        # Read major.minor from VERSION file
+        BASE_VERSION=$(cat VERSION)
         TIMESTAMP=$(date +%s)
-        DATE=$(date +'%Y.%m%d')
-        TAG="v${DATE}.${TIMESTAMP}"
+        
+        # Create full version: major.minor.timestamp
+        VERSION="${BASE_VERSION}.${TIMESTAMP}"
+        TAG="v${VERSION}"
+        
+        # Update Cargo.toml with the new version
+        sed -i "s/^version = .*/version = \"${VERSION}\"/" Cargo.toml
+        
+        echo "Base version from VERSION file: ${BASE_VERSION}"
+        echo "Generated full version: ${VERSION}"
+        cat Cargo.toml | grep "^version"
         
         # Get the last release tag for changelog
         LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
@@ -65,6 +76,12 @@ jobs:
         fi
         
         echo "tag=$TAG" >> $GITHUB_OUTPUT
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        
+    - name: Rebuild with updated version
+      run: |
+        nix develop --command cargo check
+        echo "Rebuilt with version: ${{ steps.release_info.outputs.version }}"
       
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
