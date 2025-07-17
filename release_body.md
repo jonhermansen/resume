@@ -1,0 +1,2 @@
+- Github Copilot lied to me
+- Hopefully fixing the release changelog text
