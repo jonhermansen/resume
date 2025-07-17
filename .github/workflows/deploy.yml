@@ -1,4 +1,4 @@
-name: Deploy Resume to GitHub Pages
+name: Deploy Resume and Create Release
 
 on:
   push:
@@ -26,3 +26,27 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .
         publish_branch: gh-pages
+        
+    - name: Generate release tag
+      id: tag
+      run: |
+        TIMESTAMP=$(date +%s)
+        DATE=$(date +'%Y.%m%d')
+        TAG="v${DATE}.${TIMESTAMP}"
+        echo "tag=$TAG" >> $GITHUB_OUTPUT
+        echo "Generated tag: $TAG"
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.tag.outputs.tag }}
+        name: "Resume Release ${{ steps.tag.outputs.tag }}"
+        body: |
+          Resume published on $(date +'%Y-%m-%d at %H:%M:%S UTC')
+          
+          This release contains the latest version of the resume.
+        files: resume.pdf
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
