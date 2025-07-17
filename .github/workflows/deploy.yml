@@ -74,6 +74,12 @@ jobs:
       run: |
         cargo check
         echo "Rebuilt with version: ${{ steps.release_info.outputs.version }}"
+        
+    - name: Publish to crates.io
+      run: |
+        cargo publish
+      env:
+        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
