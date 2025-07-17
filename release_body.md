@@ -1,2 +1,1 @@
-- Github Copilot lied to me
-- Hopefully fixing the release changelog text
+- First pass at getting things going with Nix
