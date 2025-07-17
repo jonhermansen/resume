@@ -32,6 +32,11 @@ jobs:
     - name: Generate release tag and changelog
       id: release_info
       run: |
+        # Debug: Check current directory and git status
+        pwd
+        ls -la
+        git status || echo "Git status failed"
+        
         TIMESTAMP=$(date +%s)
         DATE=$(date +'%Y.%m%d')
         TAG="v${DATE}.${TIMESTAMP}"
@@ -42,10 +47,10 @@ jobs:
         
         if [ -n "$LAST_TAG" ]; then
           echo "Generating changelog since $LAST_TAG"
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD)
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD 2>/dev/null || echo "- Unable to generate changelog")
         else
           echo "No previous tags found, getting recent commits"
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -5)
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -5 2>/dev/null || echo "- Recent commits not available")
         fi
         
         # Create release body
