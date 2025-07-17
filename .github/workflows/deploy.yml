@@ -32,46 +32,34 @@ jobs:
     - name: Generate release tag and changelog
       id: release_info
       run: |
-        # Debug: Check current directory and git status
-        pwd
-        ls -la
-        git status || echo "Git status failed"
-        
         TIMESTAMP=$(date +%s)
         DATE=$(date +'%Y.%m%d')
         TAG="v${DATE}.${TIMESTAMP}"
-        RELEASE_DATE=$(date +'%Y-%m-%d at %H:%M:%S UTC')
         
         # Get the last release tag for changelog
         LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
         
         if [ -n "$LAST_TAG" ]; then
-          echo "Generating changelog since $LAST_TAG"
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD 2>/dev/null || echo "- Unable to generate changelog")
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD)
         else
-          echo "No previous tags found, getting recent commits"
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -5 2>/dev/null || echo "- Recent commits not available")
+          # If no tags exist, get last 3 commits
+          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -3 HEAD)
         fi
         
-        # Create release body
-        cat > release_body.md << EOF
-        Resume published on $RELEASE_DATE
-        
-        ## Changes since last release:
-        $CHANGELOG
-        
-        ---
-        This release contains the latest version of the resume.
-        EOF
+        # Create minimal release body
+        if [ -n "$CHANGELOG" ] && [ "$CHANGELOG" != "" ]; then
+          echo "$CHANGELOG" > release_body.md
+        else
+          echo "Latest updates" > release_body.md
+        fi
         
         echo "tag=$TAG" >> $GITHUB_OUTPUT
-        echo "Generated tag: $TAG"
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.release_info.outputs.tag }}
-        name: "Resume Release ${{ steps.release_info.outputs.tag }}"
+        name: "${{ steps.release_info.outputs.tag }}"
         body_path: release_body.md
         files: resume.pdf
         draft: false
