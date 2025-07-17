@@ -1,0 +1,7 @@
+[package]
+name = "resume"
+version = "0.1.0"
+authors = ["Jon Hermansen <jon@jh86.org>"]
+edition = "2024"
+
+[dependencies]
