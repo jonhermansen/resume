@@ -1,11 +1,11 @@
 [package]
 name = "jonhermansen-resume"
-version = "0.1.1752724848"
+version = "0.2.1752725770"
 authors = ["Jon Hermansen <jon@jh86.org>"]
 edition = "2021"
 description = "Jon Hermansen's resume generator"
 repository = "https://github.com/jonhermansen/resume"
-license = "UNLICENSED"
+license-file = "LICENSE"
 keywords = ["resume", "cv", "generator"]
 categories = ["command-line-utilities"]
 readme = "README.md"

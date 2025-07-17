@@ -1,1 +1,4 @@
-- Remove unnecessary Nix build steps from CI for now
+- Bump version to 0.2 and test automated publishing pipeline
+- Add --allow-dirty flag to cargo publish for CI
+- Fix license field for crates.io publishing
+- Add automatic crate publishing to CI workflow
