@@ -26,6 +26,7 @@
         commonArgs = {
           typstSource = "resume.typ";
           fontPaths = [
+            "${pkgs.font-awesome}/share/fonts/opentype"
             "${pkgs.roboto}/share/fonts/truetype"
             "${pkgs.source-sans-pro}/share/fonts/truetype"
           ];
