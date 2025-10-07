@@ -12,13 +12,15 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-24.04-arm
+    environment:
+      name: github-pages
     steps:
-    - uses: actions/checkout@v5.0.0
-    - uses: cachix/install-nix-action@v31.7.0
-    - run: |
-        nix build
-        mkdir -p _site
-        cp index.html _site/
-        cp result _site/resume.pdf
-    - uses: actions/upload-pages-artifact@v4.0.0
-    - uses: actions/deploy-pages@v4.0.5
+      - uses: actions/checkout@v5.0.0
+      - uses: cachix/install-nix-action@v31.7.0
+      - run: |
+          nix build
+          mkdir -p _site
+          cp index.html _site/
+          cp result _site/resume.pdf
+      - uses: actions/upload-pages-artifact@v4.0.0
+      - uses: actions/deploy-pages@v4.0.5
