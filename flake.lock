@@ -18,22 +18,6 @@
         "type": "github"
       }
     },
-    "font-awesome": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1759346080,
-        "narHash": "sha256-1hHjqPXz/+otqgRsfXQG4D3uAmKOzXo2eBqOUzSU8IM=",
-        "owner": "FortAwesome",
-        "repo": "Font-Awesome",
-        "rev": "41cfe644047fc3a4c49c22acc721cacc3e1021fe",
-        "type": "github"
-      },
-      "original": {
-        "owner": "FortAwesome",
-        "repo": "Font-Awesome",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1759381078,
@@ -53,7 +37,6 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "font-awesome": "font-awesome",
         "nixpkgs": "nixpkgs",
         "typix": "typix"
       }
