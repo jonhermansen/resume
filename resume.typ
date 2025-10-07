@@ -7,7 +7,6 @@
     phone: "(+1) 978-905-6967",
     github: "jonhermansen",
     linkedin: "jonhermansen",
-    address: "77 Main St, Greenville, NH",
     positions: (
       "Software Developer in Test",
     ),
@@ -25,20 +24,20 @@ Customer-focused engineer with a background in web development and over ten year
 
 = Technical Skills
 #resume-skill-item(
-  "Build Systems & CI/CD",
-  (strong("Jenkins"), strong("Nix"), strong("Docker"), "NixOS"),
+  "CI/CD",
+  ("Jenkins", "Docker", "Nix"),
 )
 #resume-skill-item(
-  "Configuration Management",
-  (strong("Chef"), strong("Puppet"), "Terraform", "OpenStack", "AWS"),
+  "Configuration",
+  ("Chef", "Puppet", "Terraform", "AWS"),
 )
 #resume-skill-item(
   "Languages",
-  (strong("Python"), strong("JavaScript"), strong("TypeScript"), "Ruby", "Perl"),
+  ("TypeScript", "Python", "Perl", "Shell"),
 )
 #resume-skill-item(
   "Testing & Automation",
-  ("Cypress", "Protractor", "System Debugging", "RESTful APIs"),
+  ("Cypress", "Selenium"),
 )
 
 = Work Experience
@@ -128,8 +127,8 @@ Customer-focused engineer with a background in web development and over ten year
   description: "Open Source",
 )
 #resume-item[
-  - Merged 50+ pull requests to nixpkgs, including package updates, maintenance, and bug fixes.
-  - Added as package maintainer and member of the NixOS GitHub organization.
+  - Landed 50 pull requests to nixpkgs, including package updates, maintenance, and bug fixes.
+  - Package maintainer and member of the NixOS GitHub organization.
   - Enhanced nixos-install --flake functionality to improve user experience.
   - Fixed pci.ids file resolution issues affecting virt-manager and related packages.
   - Contributed to repository maintenance by removing unbuildable packages and unused code.
@@ -145,24 +144,21 @@ Customer-focused engineer with a background in web development and over ten year
   Contributed to jenkinsci (Jenkins plugins), Homebrew (build formulae), MacPorts (port files), libiscsi (protocol conformance tests), and picard (music fingerprinting).
 ]
 
-= Certifications
+= Training & Certifications
 #resume-entry(
-  title: "AWS Certified Solutions Architect - Associate",
-  location: "",
-  date: "November 2022",
+  title: "Architecting on AWS",
+  date: "2022",
   description: "Amazon Web Services",
 )
 
 #resume-entry(
   title: "CloudBees Jenkins Platform Engineer",
-  location: "San Francisco, CA",
   date: "2016",
   description: "CloudBees",
 )
 
 #resume-entry(
   title: "Jenkins Engineer",
-  location: "San Francisco, CA",
   date: "2016",
   description: "Jenkins Project",
 )
