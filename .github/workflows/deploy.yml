@@ -10,17 +10,15 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-24.04-arm
     steps:
     - uses: actions/checkout@v5.0.0
     - uses: cachix/install-nix-action@v31.7.0
     - run: |
         nix build
-        mkdir _site
+        mkdir -p _site
         cp index.html _site/
         cp result _site/resume.pdf
-
-  deploy:
     - uses: actions/upload-pages-artifact@v4.0.0
     - uses: actions/deploy-pages@v4.0.5
