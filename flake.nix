@@ -1,52 +1,114 @@
 {
-  description = "Jon Hermansen's resume generator";
+  description = "A Typst project that uses Typst packages";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    flake-utils.url = "github:numtide/flake-utils";
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    typix = {
+      url = "github:loqusion/typix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-utils.url = "github:numtide/flake-utils";
+
+    # Example of downloading icons from a non-flake source
+    # font-awesome = {
+    #   url = "github:FortAwesome/Font-Awesome";
+    #   flake = false;
+    # };
   };
 
-  outputs = { self, nixpkgs, flake-utils, rust-overlay }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        overlays = [ (import rust-overlay) ];
-        pkgs = import nixpkgs {
-          inherit system overlays;
-        };
-        
-        rustToolchain = pkgs.rust-bin.stable.latest.default.override {
-          extensions = [ "rust-src" "rustfmt" "clippy" ];
-        };
-      in
-      {
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            rustToolchain
-            pkg-config
-            openssl
-          ];
-          
-          shellHook = ''
-            echo "Welcome to jonhermansen-resume development environment!"
-            echo "Rust version: $(rustc --version)"
-            echo "Cargo version: $(cargo --version)"
-          '';
-        };
+  outputs = inputs @ {
+    nixpkgs,
+    typix,
+    flake-utils,
+    ...
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+      inherit (pkgs) lib;
 
-        packages.default = pkgs.rustPlatform.buildRustPackage {
-          pname = "jonhermansen-resume";
-          version = "0.1.0";
-          src = ./.;
-          cargoLock.lockFile = ./Cargo.lock;
-          
-          buildInputs = with pkgs; [
-            pkg-config
-            openssl
-          ];
+      typixLib = typix.lib.${system};
+
+      src = typixLib.cleanTypstSource ./.;
+      commonArgs = {
+        typstSource = "resume.typ";
+
+        fontPaths = [
+          # Add paths to fonts here
+          # "${pkgs.roboto}/share/fonts/truetype"
+        ];
+
+        virtualPaths = [
+          # Add paths that must be locally accessible to typst here
+          # {
+          #   dest = "icons";
+          #   src = "${inputs.font-awesome}/svgs/regular";
+          # }
+        ];
+      };
+
+      unstable_typstPackages = [
+        {
+          name = "modern-cv";
+          version = "0.9.0";
+          hash = "sha256-zCv2UABp3lBBbYthrSXD4OXWaiIjMdwRPQbq5a8AlUk=";
+        }
+        {
+          name = "fontawesome";
+          version = "0.6.0";
+          hash = "sha256-dgb+YAYLEKgMMEWa8yelMvRdEoesPj5HI+70w3mCUcQ=";
+        }
+        {
+          name = "linguify";
+          version = "0.4.2";
+          hash = "sha256-kuoK0r29kvc0rvDIQWELp/fZUm3Bzxc5W8M/YMU3lvg=";
+        }
+      ];
+
+      # Compile a Typst project, *without* copying the result
+      # to the current directory
+      build-drv = typixLib.buildTypstProject (commonArgs
+        // {
+          inherit src unstable_typstPackages;
+        });
+
+      # Compile a Typst project, and then copy the result
+      # to the current directory
+      build-script = typixLib.buildTypstProjectLocal (commonArgs
+        // {
+          inherit src unstable_typstPackages;
+        });
+
+      # Watch a project and recompile on changes
+      watch-script = typixLib.watchTypstProject commonArgs;
+    in {
+      checks = {
+        inherit build-drv build-script watch-script;
+      };
+
+      packages.default = build-drv;
+
+      apps = rec {
+        default = watch;
+        build = flake-utils.lib.mkApp {
+          drv = build-script;
         };
-      });
+        watch = flake-utils.lib.mkApp {
+          drv = watch-script;
+        };
+      };
+
+      devShells.default = typixLib.devShell {
+        inherit (commonArgs) fontPaths virtualPaths;
+        packages = [
+          # WARNING: Don't run `typst-build` directly, instead use `nix run .#build`
+          # See https://github.com/loqusion/typix/issues/2
+          # build-script
+          watch-script
+          # More packages can be added here, like typstfmt
+          # pkgs.typstfmt
+        ];
+      };
+    });
 }

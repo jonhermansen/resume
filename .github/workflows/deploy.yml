@@ -1,4 +1,4 @@
-name: Deploy Resume and Create Release
+name: Deploy
 
 on:
   push:
@@ -6,109 +6,16 @@ on:
 
 permissions:
   contents: write
-  id-token: write
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-24.04-arm # generally faster than x86 to start
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Fetch full history including tags
-        
-    - name: Setup Rust
-      uses: dtolnay/rust-toolchain@stable
-      
-    - name: Build and test Rust crate
-      run: |
-        cargo check
-        cargo test
-        cargo run
-        echo "Rust crate built and tested successfully!"
-      
-    - name: Prepare files for deployment
-      run: |
-        # Both index.html and resume.pdf are already in the repo
-        echo "Files ready for deployment"
-        
-    - name: Generate release tag and changelog
-      id: release_info
-      run: |
-        # Read major.minor from VERSION file
-        BASE_VERSION=$(cat VERSION)
-        TIMESTAMP=$(date +%s)
-        
-        # Create full version: major.minor.timestamp
-        VERSION="${BASE_VERSION}.${TIMESTAMP}"
-        TAG="v${VERSION}"
-        
-        # Update Cargo.toml with the new version
-        sed -i "s/^version = .*/version = \"${VERSION}\"/" Cargo.toml
-        
-        echo "Base version from VERSION file: ${BASE_VERSION}"
-        echo "Generated full version: ${VERSION}"
-        cat Cargo.toml | grep "^version"
-        
-        # Get the last release tag for changelog
-        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-        
-        if [ -n "$LAST_TAG" ]; then
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD 2>/dev/null || echo "")
-        else
-          # If no tags exist, get last 3 commits
-          CHANGELOG=$(git log --oneline --pretty=format:"- %s" -3 2>/dev/null || echo "")
-        fi
-        
-        # Create minimal release body
-        if [ -n "$CHANGELOG" ] && [ "$CHANGELOG" != "" ]; then
-          echo "$CHANGELOG" > release_body.md
-        else
-          echo "Latest updates" > release_body.md
-        fi
-        
-        echo "tag=$TAG" >> $GITHUB_OUTPUT
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        
-    - name: Rebuild with updated version
-      run: |
-        cargo check
-        echo "Rebuilt with version: ${{ steps.release_info.outputs.version }}"
-        
-    - name: Debug token availability
-      run: |
-        if [ -z "$CARGO_REGISTRY_TOKEN" ]; then
-          echo "ERROR: CARGO_REGISTRY_TOKEN is empty or not set"
-          echo "Available secrets (masked): ${#CARGO_REGISTRY_TOKEN}"
-          exit 1
-        else
-          echo "CARGO_REGISTRY_TOKEN is available (length: ${#CARGO_REGISTRY_TOKEN})"
-        fi
-      env:
-        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        
-    - name: Publish to crates.io
-      run: |
-        cargo publish --allow-dirty
-      env:
-        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-      
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+    - uses: actions/checkout@v5.0.0
+    - uses: cachix/install-nix-action@v31.7.0
+    - run: nix build .#resume
+    - uses: actions/deploy-pages@v4.0.5
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .
         publish_branch: gh-pages
-        
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ steps.release_info.outputs.tag }}
-        name: "${{ steps.release_info.outputs.tag }}"
-        body_path: release_body.md
-        files: resume.pdf
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
