@@ -7,15 +7,16 @@
     phone: "(+1) 978-905-6967",
     github: "jonhermansen",
     linkedin: "jonhermansen",
+    address: "77 Main St, Greenville, NH 03048",
     positions: (
       "Software Developer in Test",
     ),
   ),
-  profile-picture: none,
+  profile-picture: image("profile.png"),
   date: datetime.today().display(),
   language: "en",
   colored-headers: true,
-  show-footer: true,
+  show-footer: false,
   paper-size: "us-letter",
 )
 
@@ -24,20 +25,20 @@ Customer-focused engineer with a background in web development and over ten year
 
 = Technical Skills
 #resume-skill-item(
-  "CI/CD",
-  ("Jenkins", "Docker", "Nix"),
-)
-#resume-skill-item(
-  "Configuration",
-  ("Chef", "Puppet", "Terraform", "AWS"),
-)
-#resume-skill-item(
   "Languages",
-  ("TypeScript", "Python", "Perl", "Shell"),
+  ("TypeScript", "Python", "Perl", "Shell", "Nix"),
+)
+#resume-skill-item(
+  "CI/CD",
+  ("Docker", "Jenkins"),
 )
 #resume-skill-item(
   "Testing & Automation",
-  ("Cypress", "Selenium"),
+  ("Playwright", "Cypress", "Selenium"),
+)
+#resume-skill-item(
+  "Configuration",
+  ("Terraform", "Chef", "Puppet"),
 )
 
 = Work Experience
@@ -50,9 +51,8 @@ Customer-focused engineer with a background in web development and over ten year
 )
 #resume-item[
   - Lead tester on a security awareness training and phishing simulation product built with Angular.
-  - Built and maintained end-to-end and component-level test automation using Cypress with TypeScript, replacing legacy Protractor-based tests.
-  - Brought up test environments on AWS infrastructure using Chef and Test Kitchen, enabling proper integration testing where none existed before.
-  - Configured Linux systems to use cgroups v1 to enable Test Kitchen functionality with systemd services.
+  - Built and maintained end-to-end and component-level test automation using Cypress.
+  - Implemented local test environments using Test Kitchen and deployed staging AWS infrastructure, enabling proper integration testing where none existed before.
   - Responsible for testing and overall quality of product components.
   - Identified and communicated technical issues, risks, and inter-component dependencies.
   - Heavily involved in development, code reviews, configuration management, and deployments.
@@ -121,7 +121,7 @@ Customer-focused engineer with a background in web development and over ten year
 
 = Open Source Contributions
 #resume-entry(
-  title: "NixOS/nixpkgs Maintainer & Contributor",
+  title: "NixOS/nixpkgs",
   location: github-link("NixOS/nixpkgs"),
   date: "July 2025 - Present",
   description: "Open Source",
@@ -129,8 +129,8 @@ Customer-focused engineer with a background in web development and over ten year
 #resume-item[
   - Landed 50 pull requests to nixpkgs, including package updates, maintenance, and bug fixes.
   - Package maintainer and member of the NixOS GitHub organization.
-  - Enhanced nixos-install --flake functionality to improve user experience.
-  - Fixed pci.ids file resolution issues affecting virt-manager and related packages.
+  - Enhanced `nixos-generate-config --flake` functionality to improve user experience.
+  - Fixed pci.ids file resolution issues affecting libpciaccess, virt-manager and related packages.
   - Contributed to repository maintenance by removing unbuildable packages and unused code.
 ]
 
@@ -168,5 +168,5 @@ Customer-focused engineer with a background in web development and over ten year
   title: "Fitchburg State College",
   location: "Fitchburg, MA",
   date: "2004-2005",
-  description: "General Education",
+  description: "English",
 )
