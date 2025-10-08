@@ -12,7 +12,7 @@
       "Software Developer in Test",
     ),
   ),
-  profile-picture: image("profile.png"),
+  profile-picture: none,
   date: datetime.today().display(),
   language: "en",
   colored-headers: true,
