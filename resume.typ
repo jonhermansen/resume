@@ -21,7 +21,7 @@
 )
 
 = Summary
-Customer-focused engineer with a background in web development and over ten years of professional experience specializing in web application testing, with a knack for finding unusual bugs using exploratory practices and automated tooling. Extensive experience with build systems, continuous integration, and configuration management. Open source advocate who enjoys programming and experimenting with new technology. Interested in all aspects of software processes, from conception to delivery.
+SDET with over ten years of experience specializing in test automation, build systems, and continuous integration. Deep background in Linux systems administration, configuration management, and ensuring reproducibility across development and production environments. Active open source contributor passionate about packaging, dependency management, and declarative infrastructure. Interested in all aspects of software processes, from build to deployment.
 
 = Technical Skills
 #resume-skill-item(
@@ -29,16 +29,16 @@ Customer-focused engineer with a background in web development and over ten year
   ("TypeScript", "Python", "Perl", "Shell", "Nix"),
 )
 #resume-skill-item(
-  "CI/CD",
-  ("Docker", "Jenkins"),
+  "Build & CI/CD",
+  ("Jenkins", "Docker"),
+)
+#resume-skill-item(
+  "Configuration",
+  ("Chef", "Puppet", "Terraform"),
 )
 #resume-skill-item(
   "Testing & Automation",
   ("Playwright", "Cypress", "Selenium"),
-)
-#resume-skill-item(
-  "Configuration",
-  ("Terraform", "Chef", "Puppet"),
 )
 
 = Work Experience
@@ -50,13 +50,12 @@ Customer-focused engineer with a background in web development and over ten year
   title-link: "https://www.mimecast.com/company/",
 )
 #resume-item[
-  - Lead tester on a security awareness training and phishing simulation product built with Angular.
-  - Built and maintained end-to-end and component-level test automation using Cypress.
-  - Implemented local test environments using Test Kitchen and deployed staging AWS infrastructure, enabling proper integration testing where none existed before.
-  - Responsible for testing and overall quality of product components.
-  - Identified and communicated technical issues, risks, and inter-component dependencies.
-  - Heavily involved in development, code reviews, configuration management, and deployments.
-  - Frequently assisted other departments in supporting the platform and products.
+  - Lead tester on security awareness training and email security products, responsible for end-to-end quality assurance.
+  - Built comprehensive test automation suite using Cypress with TypeScript, replacing legacy Selenium-based tests.
+  - Designed and implemented reproducible test environments using Chef and Test Kitchen with Docker, enabling proper integration testing where none existed before.
+  - Debugged and resolved complex AWS infrastructure issues (EC2, RDS) blocking test environment deployment, working across database schemas, Chef recipes, and cloud configuration.
+  - Managed bi-monthly production deployments using Puppet to distribute RPM packages across hundreds of machines in multiple regions and availability zones.
+  - Conducted code reviews for Angular frontend and Java backend, contributing to architecture and design discussions.
 ]
 
 #resume-entry(
@@ -67,12 +66,10 @@ Customer-focused engineer with a background in web development and over ten year
   title-link: "https://www.ezesoft.com/about-us",
 )
 #resume-item[
-  - Created and expanded automated regression tests for a portfolio management product using Protractor with JavaScript.
-  - Improved automated build and test gates within the CI/CD pipeline.
-  - Identified XSS vulnerabilities and input validation issues in customer-facing web applications.
-  - Refactored in-house testing tools, increasing consistency across test runs and confidence in results.
-  - Developed system to track test flakiness over time with dashboards indicating test health trends.
-  - Participated and presented in cross-functional QA meetings, collaborating with engineers across different product areas.
+  - Developed automated regression tests for portfolio management frontend using Angular and JavaScript.
+  - Refactored legacy BDD testing tool to improve reliability and produce machine-readable output for CI integration.
+  - Integrated test suite into Jenkins CI pipeline, implementing flakiness tracking with dashboards to monitor test health trends over time.
+  - Led cross-functional QA discussions, sharing testing strategies across product teams.
 ]
 
 #resume-entry(
@@ -83,11 +80,10 @@ Customer-focused engineer with a background in web development and over ten year
   title-link: "https://www.verizondigitalmedia.com/our-company/about/",
 )
 #resume-item[
-  - Lead tester on a project integrating Verizon's CDN services with Microsoft Azure Portal.
-  - Developed testing frameworks and tools from scratch using JavaScript and Python.
-  - Contributed to existing testing frameworks and tools written in C\#.
-  - Created comprehensive test strategies for proposed HTTP APIs and user interfaces.
-  - Developed test cases and plans for current and new products.
+  - Lead tester for Azure Portal integration, validating provisioning, authentication, and communication between Verizon CDN services and Microsoft Azure.
+  - Built API test framework from scratch using Mocha and icedfrisby, generating tests automatically from Swagger specifications extracted from ASP.NET services.
+  - Ported legacy C\# test suite to run on Linux via Jenkins, enabling automated testing after every deployment.
+  - Created comprehensive test strategies for HTTP APIs and user interfaces across multiple products.
 ]
 
 #resume-entry(
@@ -98,11 +94,13 @@ Customer-focused engineer with a background in web development and over ten year
   title-link: "https://www.crunchbase.com/organization/pi-coral",
 )
 #resume-item[
-  - Implemented features and bug fixes across the entire product.
-  - Designed and deployed CI infrastructure using Jenkins.
-  - Responsible for builds, deployments, automated regression testing, and performance testing.
-  - Developed a RESTful API for appliance management using Python.
-  - Updated in-house Cinder driver for use with OpenStack cloud compute platform.
+  - Designed and deployed Jenkins CI infrastructure from scratch to support continuous integration of FreeBSD-based storage appliance.
+  - Automated FreeBSD system image builds using buildworld/buildkernel, cross-compiling on Linux for rapid developer feedback.
+  - Optimized build pipeline to support incremental builds, reducing build times and enabling per-commit smoke testing.
+  - Developed and maintained iSCSI protocol conformance tests, integrating machine-readable output into Jenkins for automated validation.
+  - Implemented performance testing using fio with automated result visualization in Jenkins dashboards.
+  - Maintained Python-based RESTful API for appliance management.
+  - Updated Cinder driver to support newer OpenStack releases.
 ]
 
 #resume-entry(
@@ -113,10 +111,9 @@ Customer-focused engineer with a background in web development and over ten year
   title-link: "https://mediatemple.net/company/about",
 )
 #resume-item[
-  - Created automated tests to validate internal and customer portals using Perl.
-  - Implemented configuration management and developed libraries to support it using Puppet and Ruby.
-  - Developed CI systems for automated testing and deployment.
-  - Managed Linux server infrastructure at web hosting scale.
+  - Automated testing of customer and internal portals using Perl and WWW::Selenium.
+  - Implemented Puppet-based configuration management across thousands of Linux servers at web hosting scale.
+  - Developed CI infrastructure for automated testing and deployment.
 ]
 
 = Open Source Contributions
@@ -127,11 +124,8 @@ Customer-focused engineer with a background in web development and over ten year
   description: "Open Source",
 )
 #resume-item[
-  - Landed 50 pull requests to nixpkgs, including package updates, maintenance, and bug fixes.
+  - Active contributor with regular merged pull requests for package updates, maintenance, and bug fixes.
   - Package maintainer and member of the NixOS GitHub organization.
-  - Enhanced `nixos-generate-config --flake` functionality to improve user experience.
-  - Fixed pci.ids file resolution issues affecting libpciaccess, virt-manager and related packages.
-  - Contributed to repository maintenance by removing unbuildable packages and unused code.
 ]
 
 #resume-entry(
@@ -141,7 +135,7 @@ Customer-focused engineer with a background in web development and over ten year
   description: "",
 )
 #resume-item[
-  Contributed to jenkinsci (Jenkins plugins), Homebrew (build formulae), MacPorts (port files), libiscsi (protocol conformance tests), and picard (music fingerprinting).
+  Contributed to Jenkins plugins, Homebrew, MacPorts, Cypress, Playwright, Protractor, and libiscsi, among many other projects.
 ]
 
 = Training & Certifications
@@ -168,5 +162,5 @@ Customer-focused engineer with a background in web development and over ten year
   title: "Fitchburg State College",
   location: "Fitchburg, MA",
   date: "2004-2005",
-  description: "English",
+  description: "Writing",
 )
