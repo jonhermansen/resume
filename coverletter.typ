@@ -49,8 +49,6 @@ My career combines Linux expertise, QA, and systems engineering. I realized that
 More recently, my work with Nix has been the culmination of this experience. I contribute actively to nixpkgs and maintain reproducible systems, applying lessons from years of managing dependencies, debugging production incidents, and optimizing build systems. My focus on complete system integrity—from firmware to software—demonstrates a level of rigor relevant to defense and high-assurance computing.
 ]
 
-#v(1em)
-
-Sincerely,
-
-Jon Hermansen
+#text(0.95em, weight: "light")[Sincerely,]
+#v(0em)
+#text(1em, weight: "bold")[Jon Hermansen]
