@@ -7,7 +7,7 @@
     phone: "(+1) 978-905-6967",
     github: "jonhermansen",
     linkedin: "jonhermansen",
-    address: "77 Main St, Greenville, NH 03048",
+    address: "273 Harwood Ave, Littleton, MA 01460",
     positions: (
       "Software Developer in Test",
     ),
